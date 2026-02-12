@@ -9,37 +9,38 @@ The pipeline ensures:
 - Unified reporting via BI dashboards
 
 ## 🏗️ Architecture
-#### Medallion Layers
-** - Bronze Layer: ** Raw data ingestion from both companies (CSV, JSON, SQL dumps).
-** - Silver Layer: ** Cleaned and standardized data (schema alignment, deduplication, enrichment).
-** - Gold Layer: ** Business-ready aggregated datasets for analytics and dashboards.
+### Medallion Layers
+- **Bronze Layer:** Raw data ingestion from both companies (CSV, JSON, SQL dumps).
+- **Silver Layer:** Cleaned and standardized data (schema alignment, deduplication, enrichment).
+- **Gold Layer:** Business-ready aggregated datasets for analytics and dashboards.
+
 ### Tech Stack
-|  |  | 
-|  |  | 
-|  |  | 
-|  |  | 
-|  |  | 
-|  |  | 
-|  |  | 
-
-
+| Component | Technology Used | 
+| Programming | Python, SQL | 
+| Storage | Amazon S3 + Delta Lake | 
+| Processing | Databricks (Apache Spark) | 
+| Architecture | Medallion (Bronze, Silver, Gold) | 
+| Visualization | BI Dashboard (Power BI / Tableau) | 
+| Orchestration | Databricks Jobs + Genie | 
 
 ## ⚙️ Workflow
 1. Data Ingestion
-  - Extract data from legacy systems of both companies.
-  - Load raw files into Amazon S3 (Bronze layer).
+    - Source data from legacy systems (CSV, JSON, SQL dumps).
+    - Load into Databricks Bronze tables (Delta Lake on S3).
 2. Data Transformation
-  - Use PySpark for cleaning, deduplication, and schema harmonization.
-  - Apply SQL transformations for business rules.
-  - Store results in Silver layer.
+    - Use PySpark notebooks for schema harmonization, deduplication, and enrichment.
+    - Apply SQL transformations for business rules.
+    - Store results in Silver tables.
 3. Data Aggregation
-  - Build curated datasets (sales, inventory, customer insights).
-  - Store in Gold layer for analytics.
+    - Build curated datasets (sales, inventory, customer insights).
+    - Store in Gold tables for analytics.
 4. Visualization
-  - Connect BI tools to Gold layer.
-  - Deliver dashboards for executives and analysts.
+    - Connect BI tools (Power BI, Tableau) to Gold layer.
+    - Deliver dashboards for executives and analysts.
 5. Orchestration
-  - Automate workflows with Genie for scheduling and monitoring.
+    - Schedule and monitor pipelines using Databricks Jobs.
+    - Integrate Genie for workflow automation.
+
 
 ## 📊 Example Use Case
 - Consolidating sales transactions from both companies.
@@ -48,16 +49,17 @@ The pipeline ensures:
 
 ## 🚀 Getting Started
 ### Prerequisites
-- Python 3.9+
-- Apache Spark
-- AWS CLI configured
-- Genie installed
+- Databricks Workspace
+- AWS S3 bucket configured
+- Python 3.9+ environment
+- BI tool (Power BI / Tableau)
+
 ### Setup
-# Clone repository
+**Clone repository**
 git clone https://github.com/your-org/fmcg-etl-pipeline.git
 cd fmcg-etl-pipeline
 
-# Install dependencies
+**Install dependencies**
 pip install -r requirements.txt
 
 
@@ -85,7 +87,7 @@ fmcg-etl-pipeline/
 
 ## ✅ Deliverables
 - Consolidated Lakehouse with Bronze, Silver, Gold layers
-- Automated ETL pipeline with Genie
+- Automated ETL pipeline on Databricks
 - BI dashboards for FMCG insights
 - Documentation for reproducibility
 
