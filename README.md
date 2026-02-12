@@ -70,18 +70,18 @@ The pipeline ensures:
 
 
 ## 📂 Repository Structure
-fmcg-etl-pipeline/
-│── README.md
-│── requirements.txt
-│── etl_pipeline.py
-│── configs/
-│   └── aws_config.json
-│── notebooks/
-│   └── data_cleaning.ipynb
-│── dashboards/
-│   └── sales_dashboard.pbix
-│── docs/
-│   └── architecture_diagram.png
+    - fmcg-etl-pipeline/
+    │── README.md
+    │── requirements.txt
+    │── etl_pipeline.py
+    │── configs/
+    │   └── aws_config.json
+    │── notebooks/
+    │   └── data_cleaning.ipynb
+    │── dashboards/
+    │   └── sales_dashboard.pbix
+    │── docs/
+    │   └── architecture_diagram.png
 
 
 
@@ -90,5 +90,53 @@ fmcg-etl-pipeline/
 - Automated ETL pipeline on Databricks
 - BI dashboards for FMCG insights
 - Documentation for reproducibility
+
+
+# 🏭 FMCG Data Engineering Project – Lakehouse ETL Pipeline
+
+## 📌 Project Overview
+This project demonstrates an **end-to-end data engineering pipeline** using **Databricks (Free Edition)** in the **FMCG domain**.  
+Scenario: A **large retail company acquires a smaller one**, and we need to consolidate their data into a **single Lakehouse architecture**.
+
+The pipeline follows the **Medallion Architecture (Bronze → Silver → Gold)** and integrates with **Amazon S3, Spark, SQL, Python, Genie, and BI dashboards**.
+
+---
+
+## ⚙️ Tech Stack
+- **Databricks (Free Edition)**
+- **Python** (ETL scripts, automation)
+- **SQL** (data transformations, reconciliation)
+- **Apache Spark** (distributed processing)
+- **Amazon S3** (data lake storage)
+- **Medallion Architecture** (Bronze, Silver, Gold layers)
+- **BI Dashboard** (analytics & visualization)
+- **Genie** (workflow orchestration)
+
+---
+
+## 🏗️ Architecture Diagram
+    Raw Data (Company A + Company B)
+                 |
+              Amazon S3
+                 |
+             Bronze Layer
+                 |
+             Silver Layer
+                 |
+             Gold Layer
+                 |
+          BI Dashboard + Genie
+
+
+---
+
+## 🚀 Getting Started
+
+### 1. Clone Repository
+```bash
+git clone https://github.com/yourusername/fmcg-etl-pipeline.git
+cd fmcg-etl-pipeline
+
+
 
 
