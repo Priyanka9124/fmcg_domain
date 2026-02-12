@@ -16,6 +16,7 @@ The pipeline ensures:
 
 ### Tech Stack
 | Component | Technology Used | 
+| --- | --- |
 | Programming | Python, SQL | 
 | Storage | Amazon S3 + Delta Lake | 
 | Processing | Databricks (Apache Spark) | 
@@ -24,23 +25,22 @@ The pipeline ensures:
 | Orchestration | Databricks Jobs + Genie | 
 
 ## ⚙️ Workflow
-1. Data Ingestion
+1. **Data Ingestion**
     - Source data from legacy systems (CSV, JSON, SQL dumps).
     - Load into Databricks Bronze tables (Delta Lake on S3).
-2. Data Transformation
+2. **Data Transformation**
     - Use PySpark notebooks for schema harmonization, deduplication, and enrichment.
     - Apply SQL transformations for business rules.
     - Store results in Silver tables.
-3. Data Aggregation
+3. **Data Aggregation**
     - Build curated datasets (sales, inventory, customer insights).
     - Store in Gold tables for analytics.
-4. Visualization
+4. **Visualization**
     - Connect BI tools (Power BI, Tableau) to Gold layer.
     - Deliver dashboards for executives and analysts.
-5. Orchestration
+5. **Orchestration**
     - Schedule and monitor pipelines using Databricks Jobs.
     - Integrate Genie for workflow automation.
-
 
 ## 📊 Example Use Case
 - Consolidating sales transactions from both companies.
@@ -55,17 +55,17 @@ The pipeline ensures:
 - BI tool (Power BI / Tableau)
 
 ### Setup
-**Clone repository**
-git clone https://github.com/your-org/fmcg-etl-pipeline.git
-cd fmcg-etl-pipeline
+- **Clone repository**
+    - git clone https://github.com/your-org/fmcg-etl-pipeline.git
+    - cd fmcg-etl-pipeline
 
-**Install dependencies**
-pip install -r requirements.txt
+- **Install dependencies**
+    - pip install -r requirements.txt
 
 
 ### Run Pipeline
-# Trigger ETL job
-python etl_pipeline.py
+    - Trigger ETL job
+    - python etl_pipeline.py
 
 
 
