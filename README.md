@@ -1,97 +1,3 @@
-# FMCG ETL Pipeline – Retail Merger Use Case
-## 📌 Project Overview
-In the FMCG domain, when a large retail company acquires a smaller one, consolidating their data becomes critical for unified reporting and analytics.
-This project builds an ETL pipeline to integrate and transform data from both companies into a single Lakehouse architecture following the Medallion framework.
-The pipeline ensures:
-- Seamless ingestion of structured and semi-structured data
-- Standardized transformations for consistency
-- Scalable storage in Amazon S3
-- Unified reporting via BI dashboards
-
-## 🏗️ Architecture
-### Medallion Layers
-- **Bronze Layer:** Raw data ingestion from both companies (CSV, JSON, SQL dumps).
-- **Silver Layer:** Cleaned and standardized data (schema alignment, deduplication, enrichment).
-- **Gold Layer:** Business-ready aggregated datasets for analytics and dashboards.
-
-### Tech Stack
-| Component | Technology Used | 
-| --- | --- |
-| Programming | Python, SQL | 
-| Storage | Amazon S3 + Delta Lake | 
-| Processing | Databricks (Apache Spark) | 
-| Architecture | Medallion (Bronze, Silver, Gold) | 
-| Visualization | BI Dashboard (Power BI / Tableau) | 
-| Orchestration | Databricks Jobs + Genie | 
-
-## ⚙️ Workflow
-1. **Data Ingestion**
-    - Source data from legacy systems (CSV, JSON, SQL dumps).
-    - Load into Databricks Bronze tables (Delta Lake on S3).
-2. **Data Transformation**
-    - Use PySpark notebooks for schema harmonization, deduplication, and enrichment.
-    - Apply SQL transformations for business rules.
-    - Store results in Silver tables.
-3. **Data Aggregation**
-    - Build curated datasets (sales, inventory, customer insights).
-    - Store in Gold tables for analytics.
-4. **Visualization**
-    - Connect BI tools (Power BI, Tableau) to Gold layer.
-    - Deliver dashboards for executives and analysts.
-5. **Orchestration**
-    - Schedule and monitor pipelines using Databricks Jobs.
-    - Integrate Genie for workflow automation.
-
-## 📊 Example Use Case
-- Consolidating sales transactions from both companies.
-- Harmonizing product catalogs (different SKUs, naming conventions).
-- Building a unified customer loyalty dashboard.
-
-## 🚀 Getting Started
-### Prerequisites
-- Databricks Workspace
-- AWS S3 bucket configured
-- Python 3.9+ environment
-- BI tool (Power BI / Tableau)
-
-### Setup
-- **Clone repository**
-    - git clone https://github.com/your-org/fmcg-etl-pipeline.git
-    - cd fmcg-etl-pipeline
-
-- **Install dependencies**
-    - pip install -r requirements.txt
-
-
-### Run Pipeline
-    - Trigger ETL job
-    - python etl_pipeline.py
-
-
-
-## 📂 Repository Structure
-    - fmcg-etl-pipeline/
-    │── README.md
-    │── requirements.txt
-    │── etl_pipeline.py
-    │── configs/
-    │   └── aws_config.json
-    │── notebooks/
-    │   └── data_cleaning.ipynb
-    │── dashboards/
-    │   └── sales_dashboard.pbix
-    │── docs/
-    │   └── architecture_diagram.png
-
-
-
-## ✅ Deliverables
-- Consolidated Lakehouse with Bronze, Silver, Gold layers
-- Automated ETL pipeline on Databricks
-- BI dashboards for FMCG insights
-- Documentation for reproducibility
-
-
 # 🏭 FMCG Data Engineering Project – Lakehouse ETL Pipeline
 
 ## 📌 Project Overview
@@ -114,7 +20,31 @@ The pipeline follows the **Medallion Architecture (Bronze → Silver → Gold)**
 
 ---
 
+## ⚙️ Workflow
+1. **Data Ingestion**
+    - Source data from legacy systems (CSV, JSON, SQL dumps).
+    - Load into Databricks Bronze tables (Delta Lake on S3).
+2. **Data Transformation**
+    - Use PySpark notebooks for schema harmonization, deduplication, and enrichment.
+    - Apply SQL transformations for business rules.
+    - Store results in Silver tables.
+3. **Data Aggregation**
+    - Build curated datasets (sales, inventory, customer insights).
+    - Store in Gold tables for analytics.
+4. **Visualization**
+    - Connect BI tools (Power BI, Tableau) to Gold layer.
+    - Deliver dashboards for executives and analysts.
+5. **Orchestration**
+    - Schedule and monitor pipelines using Databricks Jobs.
+    - Integrate Genie for workflow automation.
+
+---
+
 ## 🏗️ Architecture Diagram
+
+![Project Architectuire Image](project_architecture.png)
+
+
     Raw Data (Company A + Company B)
                  |
               Amazon S3
@@ -127,16 +57,70 @@ The pipeline follows the **Medallion Architecture (Bronze → Silver → Gold)**
                  |
           BI Dashboard + Genie
 
-
 ---
 
 ## 🚀 Getting Started
 
 ### 1. Clone Repository
-```bash
-git clone https://github.com/yourusername/fmcg-etl-pipeline.git
-cd fmcg-etl-pipeline
+    ```bash
+    git clone https://github.com/yourusername/fmcg-etl-pipeline.git
+    cd fmcg-etl-pipeline
 
+### 2. Setup Databricks Notebook
+Upload the provided notebooks into your Databricks workspace.
 
+## 📂 Project Structure
 
+    - fmcg-etl-pipeline/
+    │── notebooks/
+    │   ├── bronze_ingestion.py
+    │   ├── silver_transformation.sql
+    │   ├── gold_aggregation.py
+    │── configs/
+    │   ├── s3_config.json
+    │── dashboards/
+    │   ├── fmcg_sales_dashboard.twb
+    │── README.md
+
+## 📝 Sample Code
+### Bronze Layer – Raw Data Ingestion
+from pyspark.sql import SparkSession
+spark = SparkSession.builder.appName("FMCG Bronze Ingestion").getOrCreate()
+// Load raw data from S3
+raw_df = spark.read.option("header", True).csv("s3://fmcg-data/raw/companyA/*.csv")
+// Write to Bronze Layer
+raw_df.write.format("delta").mode("overwrite").save("/mnt/bronze/companyA")
+
+### Silver Layer – Data Cleaning & Transformation
+-- Remove duplicates and standardize schema
+CREATE OR REPLACE TABLE silver.sales AS
+SELECT DISTINCT
+    CAST(order_id AS INT) AS order_id,
+    customer_name,
+    LOWER(product_name) AS product_name,
+    CAST(sale_amount AS DOUBLE) AS sale_amount,
+    sale_date
+FROM bronze.sales;
+
+### Gold Layer – Aggregation for BI
+gold_df = spark.sql("""
+    SELECT product_name, SUM(sale_amount) AS total_sales
+    FROM silver.sales
+    GROUP BY product_name
+""")
+
+gold_df.write.format("delta").mode("overwrite").save("/mnt/gold/sales_summary")
+
+## 📊 BI Dashboard
+- Connect Tableau / Power BI to the Gold Layer Delta tables.
+- Example KPI:
+    - Total Sales by Product
+    - Sales Trend by Month
+    - Comparison between Company A & B
+ 
+## 🔮 Genie Workflow
+Genie orchestrates:
+    - Daily ingestion jobs
+    - Transformation pipelines
+    - Dashboard refresh schedules
 
