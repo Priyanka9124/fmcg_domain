@@ -42,7 +42,7 @@ The pipeline follows the **Medallion Architecture (Bronze → Silver → Gold)**
 
 ## 🏗️ Architecture Diagram
 
-![Project Architectuire Image](project_architecture.png)
+![Project Architectuire Image](https://github.com/Priyanka9124/fmcg_domain/blob/main/resources/project_architecture.png)
 
 
     Raw Data (Company A + Company B)
@@ -63,16 +63,17 @@ The pipeline follows the **Medallion Architecture (Bronze → Silver → Gold)**
 
 ### 1. Clone Repository
     ```bash
-    git clone https://github.com/yourusername/fmcg-etl-pipeline.git
-    cd fmcg-etl-pipeline
+    [git clone https://github.com/Priyanka9124/fmcg_domain.git]
+    cd fmcg-domain
 
 ### 2. Setup Databricks Notebook
 Upload the provided notebooks into your Databricks workspace.
 
 ## 📂 Project Structure
 
-    - fmcg-etl-pipeline/
-    │── notebooks/
+    - fmcg_domain/
+    │── 0_data/
+    │── │── 0_data/
     │   ├── bronze_ingestion.py
     │   ├── silver_transformation.sql
     │   ├── gold_aggregation.py
@@ -84,32 +85,32 @@ Upload the provided notebooks into your Databricks workspace.
 
 ## 📝 Sample Code
 ### Bronze Layer – Raw Data Ingestion
-from pyspark.sql import SparkSession
-spark = SparkSession.builder.appName("FMCG Bronze Ingestion").getOrCreate()
-// Load raw data from S3
-raw_df = spark.read.option("header", True).csv("s3://fmcg-data/raw/companyA/*.csv")
-// Write to Bronze Layer
-raw_df.write.format("delta").mode("overwrite").save("/mnt/bronze/companyA")
+    - from pyspark.sql import SparkSession
+    spark = SparkSession.builder.appName("FMCG Bronze Ingestion").getOrCreate()
+    // Load raw data from S3
+    raw_df = spark.read.option("header", True).csv("s3://fmcg-data/raw/companyA/*.csv")
+    // Write to Bronze Layer
+    raw_df.write.format("delta").mode("overwrite").save("/mnt/bronze/companyA")
 
 ### Silver Layer – Data Cleaning & Transformation
 -- Remove duplicates and standardize schema
-CREATE OR REPLACE TABLE silver.sales AS
-SELECT DISTINCT
-    CAST(order_id AS INT) AS order_id,
-    customer_name,
-    LOWER(product_name) AS product_name,
-    CAST(sale_amount AS DOUBLE) AS sale_amount,
-    sale_date
-FROM bronze.sales;
+    - CREATE OR REPLACE TABLE silver.sales AS
+    SELECT DISTINCT
+        CAST(order_id AS INT) AS order_id,
+        customer_name,
+        LOWER(product_name) AS product_name,
+        CAST(sale_amount AS DOUBLE) AS sale_amount,
+        sale_date
+    FROM bronze.sales;
 
 ### Gold Layer – Aggregation for BI
-gold_df = spark.sql("""
-    SELECT product_name, SUM(sale_amount) AS total_sales
-    FROM silver.sales
-    GROUP BY product_name
-""")
-
-gold_df.write.format("delta").mode("overwrite").save("/mnt/gold/sales_summary")
+    - gold_df = spark.sql("""
+        SELECT product_name, SUM(sale_amount) AS total_sales
+        FROM silver.sales
+        GROUP BY product_name
+    """)
+    
+    gold_df.write.format("delta").mode("overwrite").save("/mnt/gold/sales_summary")
 
 ## 📊 BI Dashboard
 - Connect Tableau / Power BI to the Gold Layer Delta tables.
@@ -119,7 +120,7 @@ gold_df.write.format("delta").mode("overwrite").save("/mnt/gold/sales_summary")
     - Comparison between Company A & B
  
 ## 🔮 Genie Workflow
-Genie orchestrates:
+- Genie orchestrates:
     - Daily ingestion jobs
     - Transformation pipelines
     - Dashboard refresh schedules
